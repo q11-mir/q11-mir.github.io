@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>سديم — دفتر التأسيس</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1612;
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d8;
+    --accent: #8b7355;
+    --accent-light: #c4a882;
+    --accent-faint: #f0e9da;
+    --muted: #9e9082;
+    --line: #d4c9b5;
+    --success: #4a7c59;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 28px;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 70% 60% at 20% 80%, rgba(139,115,85,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 20%, rgba(139,115,85,0.10) 0%, transparent 60%);
+  }
+
+  .cover-logo {
+    font-size: clamp(72px, 22vw, 120px);
+    font-weight: 300;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.2s forwards;
+  }
+
+  .cover-sub {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--accent-light);
+    letter-spacing: 0.15em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .cover-desc {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    max-width: 280px;
+    line-height: 1.7;
+    margin-top: 32px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.7s forwards;
+  }
+
+  .cover-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    margin: 28px auto;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
+
+  .start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: var(--paper);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 2px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+    transition: background 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .start-btn:active { transform: scale(0.97); }
+  .start-btn:hover { background: #7a6347; }
+
+  /* ── PROGRESS ── */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .progress-bar-bg {
+    flex: 1;
+    height: 3px;
+    background: var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  /* ── FORM ── */
+  .form-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 40px 0 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 4px 10px;
+    border-radius: 1px;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .section-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── QUESTION ── */
+  .q-block {
+    padding: 24px 0 8px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .q-block:last-child { border-bottom: none; }
+
+  .q-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.6;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .q-hint {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 300;
+    display: block;
+    margin-bottom: 12px;
+    margin-top: -8px;
+  }
+
+  textarea, input[type="text"], input[type="date"], input[type="number"] {
+    width: 100%;
+    background: var(--accent-faint);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 12px 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  textarea:focus, input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(139,115,85,0.12);
+  }
+
+  textarea {
+    resize: none;
+    min-height: 90px;
+    line-height: 1.7;
+  }
+
+  textarea.tall { min-height: 120px; }
+
+  input[type="date"] {
+    direction: ltr;
+    text-align: right;
+  }
+
+  /* ── META FIELDS ── */
+  .meta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .meta-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-section {
+    padding: 40px 0 20px;
+    text-align: center;
+  }
+
+  .submit-note {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: var(--paper-dark);
+    border-right: 3px solid var(--accent);
+    text-align: right;
+  }
+
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 16px 40px;
+    border-radius: 2px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-btn:hover { background: #2d2820; }
+
+  /* ── SUCCESS ── */
+  .success-screen {
+    display: none;
+    min-height: 100svh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 28px;
+    text-align: center;
+    background: var(--paper);
+  }
+
+  .success-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 24px;
+  }
+
+  .success-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .success-sub {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+
+  .success-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    margin: 24px auto;
+  }
+
+  .restart-btn {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 20px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── DOWNLOAD CARD ── */
+  .download-card {
+    display: none;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 2px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    text-align: right;
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .download-card p {
+    font-size: 12px;
+    color: var(--accent-light);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+
+  .download-btn {
+    background: var(--accent);
+    color: var(--paper);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 2px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── UTILS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hidden { display: none !important; }
+
+  /* Required asterisk */
+  .req { color: var(--accent); }
+
+  /* char counter */
+  .char-count {
+    font-size: 10px;
+    color: var(--line);
+    text-align: left;
+    margin-top: 4px;
+    transition: color 0.2s;
+  }
+  .char-count.warn { color: var(--accent); }
+
+  @media (max-width: 380px) {
+    .meta-row { grid-template-columns: 1fr; }
+    .cover-logo { font-size: 64px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <div class="cover-logo">سديم</div>
+  <div class="cover-sub">دفتر التأسيس</div>
+  <div class="cover-divider"></div>
+  <p class="cover-desc">هذا الدفتر ليس وثيقة رسمية — هو مساحة مفتوحة لأفكارنا قبل أن تتشكّل</p>
+  <button class="start-btn" onclick="startForm()">
+    ابدأ التعبئة ←
+  </button>
+</div>
+
+<!-- MAIN FORM -->
+<div id="main-form" class="hidden">
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <span class="progress-label" id="progress-label">٠٪</span>
+  </div>
+
+  <div class="form-wrap">
+    <form id="sudaim-form" onsubmit="handleSubmit(event)" novalidate>
+
+      <!-- META -->
+      <div class="section">
+        <div class="section-badge">معلومات أساسية</div>
+        <div class="meta-row">
+          <div class="meta-field">
+            <label>تاريخ التأسيس</label>
+            <input type="date" id="f-date" name="founding_date">
+          </div>
+          <div class="meta-field">
+            <label>عدد المؤسسين</label>
+            <input type="number" id="f-count" name="founders_count" min="1" max="20" placeholder="٢">
+          </div>
+        </div>
+      </div>
+
+      <!-- ١ — الفلسفة -->
+      <div class="section">
+        <div class="section-badge">١ — الفلسفة</div>
+        <div class="section-title">من نحن فعلاً؟</div>
+        <p class="section-note">أجب بصدق — لا توجد إجابات صحيحة أو خاطئة هنا</p>
+
+        <div class="q-block">
+          <label class="q-label" for="q1">بجملة واحدة: سديم هو … <span class="req">*</span></label>
+          <textarea id="q1" name="q1_definition" placeholder="أكمل الجملة بصدق…" required oninput="updateProgress(); countChars(this, 200)"></textarea>
+          <div class="char-count" id="cc-q1"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q2">القيمة التي لو غابت، لم يعد سديم سديماً <span class="req">*</span></label>
+          <textarea id="q2" name="q2_core_value" placeholder="ما هي هذه القيمة؟" required oninput="updateProgress(); countChars(this, 300)"></textarea>
+          <div class="char-count" id="cc-q2"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q3">نجاح سديم يبدو كـ … <span class="req">*</span></label>
+          <span class="q-hint">هذه الإجابة ستُقرأ في نهاية السنة الأولى — اكتب ما تؤمن به فعلاً</span>
+          <textarea id="q3" name="q3_success_vision" class="tall" placeholder="صِف الصورة كما تراها…" required oninput="updateProgress(); countChars(this, 400)"></textarea>
+          <div class="char-count" id="cc-q3"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q4">الشيء الوحيد الذي نرفض أن يحدث بيننا</label>
+          <textarea id="q4" name="q4_red_line" placeholder="الخط الأحمر…" oninput="updateProgress(); countChars(this, 300)"></textarea>
+          <div class="char-count" id="cc-q4"></div>
+        </div>
+      </div>
+
+      <!-- ٢ — الهوية -->
+      <div class="section">
+        <div class="section-badge">٢ — الهوية والعضوية</div>
+        <div class="section-title">مَن هو العضو؟</div>
+
+        <div class="q-block">
+          <label class="q-label" for="q5">صفتان يجب أن يحملهما كل عضو في سديم <span class="req">*</span></label>
+          <textarea id="q5" name="q5_member_traits" placeholder="الصفة الأولى…&#10;الصفة الثانية…" required oninput="updateProgress(); countChars(this, 250)"></textarea>
+          <div class="char-count" id="cc-q5"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q6">صفة واحدة إذا وُجدت في شخص، لن ندعوه — مهما كانت مزاياه الأخرى</label>
+          <textarea id="q6" name="q6_disqualifier" placeholder="الصفة التي تغلق الباب…" oninput="updateProgress(); countChars(this, 200)"></textarea>
+          <div class="char-count" id="cc-q6"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q7">كيف يعرف العضو الجديد أنه في المكان الصحيح؟</label>
+          <textarea id="q7" name="q7_belonging_signal" placeholder="ما الإحساس أو اللحظة التي تأكد له فيها أنه ينتمي؟" oninput="updateProgress(); countChars(this, 300)"></textarea>
+          <div class="char-count" id="cc-q7"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q8">ما الشيء الذي يستطيع سديم تقديمه لأعضائه ولا يجده في أي مكان آخر؟ <span class="req">*</span></label>
+          <textarea id="q8" name="q8_unique_offer" class="tall" placeholder="الميزة التي لا مثيل لها…" required oninput="updateProgress(); countChars(this, 400)"></textarea>
+          <div class="char-count" id="cc-q8"></div>
+        </div>
+      </div>
+
+      <!-- ٣ — الإيقاع -->
+      <div class="section">
+        <div class="section-badge">٣ — الإيقاع والتفاعل</div>
+        <div class="section-title">كيف نلتقي؟</div>
+        <p class="section-note">أفكار عملية لا قرارات نهائية — نتفق عليها لاحقاً</p>
+
+        <div class="q-block">
+          <label class="q-label" for="q9">الوقت والمكان الأنسب للاجتماع الشهري في رأيك</label>
+          <input type="text" id="q9" name="q9_meeting_pref" placeholder="مثال: الجمعة مساءً — كافيه هادئ في الرياض" oninput="updateProgress()">
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q10">موضوع أريد أن نناقشه في أقرب اجتماع <span class="req">*</span></label>
+          <textarea id="q10" name="q10_first_topic" placeholder="الموضوع الذي يشغلني الآن…" required oninput="updateProgress(); countChars(this, 300)"></textarea>
+          <div class="char-count" id="cc-q10"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q11">شيء يمكنني تقديمه أو مشاركته مع المجموعة (مهارة، خبرة، معرفة)</label>
+          <textarea id="q11" name="q11_contribution" placeholder="ما الذي أستطيع إضافته للمجموعة؟" oninput="updateProgress(); countChars(this, 300)"></textarea>
+          <div class="char-count" id="cc-q11"></div>
+        </div>
+
+        <div class="q-block">
+          <label class="q-label" for="q12">تحدٍّ أو سؤال أريد أن أطرحه على الأعضاء</label>
+          <textarea id="q12" name="q12_open_question" placeholder="السؤال الذي يشغلني…" oninput="updateProgress(); countChars(this, 300)"></textarea>
+          <div class="char-count" id="cc-q12"></div>
+        </div>
+      </div>
+
+      <!-- ٤ — مساحة حرة -->
+      <div class="section">
+        <div class="section-badge">٤ — مساحة حرة</div>
+        <div class="section-title">بلا قيد ولا تأطير</div>
+
+        <div class="q-block">
+          <label class="q-label" for="q13">أي فكرة، اقتراح، قلق، أو ملاحظة</label>
+          <textarea id="q13" name="q13_free_space" class="tall" placeholder="هذه المساحة لك وحدك…" oninput="updateProgress(); countChars(this, 600)"></textarea>
+          <div class="char-count" id="cc-q13"></div>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="submit-section">
+        <div class="submit-note">
+          كل ما كُتب هنا يبقى بين أعضاء سديم فقط — هذا ليس محضر اجتماع، هو أمانة
+        </div>
+        <button type="submit" class="submit-btn">
+          تسليم الدفتر ←
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="success-screen">
+  <div class="success-icon">✓</div>
+  <div class="success-title">وصل الدفتر</div>
+  <div class="success-divider"></div>
+  <p class="success-sub">شكراً — ما كتبته سيُقرأ في نهاية السنة الأولى ويبقى أمانة بيننا</p>
+
+  <div class="download-card" id="download-card">
+    <p>يمكنك تحميل إجاباتك كملف نصي للحفظ الشخصي</p>
+    <button class="download-btn" onclick="downloadAnswers()">تحميل إجاباتي ←</button>
+  </div>
+
+  <button class="restart-btn" onclick="restartForm()">تعبئة دفتر جديد</button>
+</div>
+
+<script>
+  // ── STATE ──
+  const REQUIRED_IDS = ['q1','q2','q3','q5','q8','q10'];
+  let formData = {};
+
+  // ── COVER → FORM ──
+  function startForm() {
+    document.getElementById('cover').classList.add('hidden');
+    document.getElementById('main-form').classList.remove('hidden');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── PROGRESS ──
+  function updateProgress() {
+    const filled = REQUIRED_IDS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim().length > 0;
+    }).length;
+    const pct = Math.round((filled / REQUIRED_IDS.length) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = pct + '٪';
+  }
+
+  // ── CHAR COUNTER ──
+  function countChars(el, max) {
+    const len = el.value.length;
+    const fieldId = el.id;
+    const ccEl = document.getElementById('cc-' + fieldId);
+    if (!ccEl) return;
+    if (len === 0) { ccEl.textContent = ''; return; }
+    ccEl.textContent = len + ' / ' + max;
+    ccEl.classList.toggle('warn', len > max * 0.8);
+  }
+
+  // ── SUBMIT ──
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // validate required
+    let missing = false;
+    REQUIRED_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.style.borderColor = '#c0392b';
+        if (!missing) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          missing = true;
+        }
+        el.addEventListener('input', () => el.style.borderColor = '', { once: true });
+      }
+    });
+    if (missing) return;
+
+    // collect data
+    const form = document.getElementById('sudaim-form');
+    const fd = new FormData(form);
+    formData = {};
+    fd.forEach((v, k) => { formData[k] = v; });
+
+    // show success
+    document.getElementById('main-form').classList.add('hidden');
+    const ss = document.getElementById('success-screen');
+    ss.style.display = 'flex';
+    document.getElementById('download-card').style.display = 'block';
+  }
+
+  // ── DOWNLOAD ──
+  function downloadAnswers() {
+    const labels = {
+      founding_date: 'تاريخ التأسيس',
+      founders_count: 'عدد المؤسسين',
+      q1_definition: 'سديم هو …',
+      q2_core_value: 'القيمة الجوهرية',
+      q3_success_vision: 'نجاح سديم يبدو كـ',
+      q4_red_line: 'الخط الأحمر',
+      q5_member_traits: 'صفات العضو',
+      q6_disqualifier: 'صفة الإقصاء',
+      q7_belonging_signal: 'إحساس الانتماء',
+      q8_unique_offer: 'ما لا يجده في مكان آخر',
+      q9_meeting_pref: 'موعد الاجتماع الشهري',
+      q10_first_topic: 'أول موضوع للنقاش',
+      q11_contribution: 'ما يمكنني تقديمه',
+      q12_open_question: 'تحدٍّ أو سؤال مفتوح',
+      q13_free_space: 'المساحة الحرة',
+    };
+
+    let txt = 'سديم — دفتر التأسيس\n';
+    txt += '═'.repeat(30) + '\n\n';
+    for (const [k, v] of Object.entries(formData)) {
+      if (v && v.trim()) {
+        txt += '◈ ' + (labels[k] || k) + '\n';
+        txt += v.trim() + '\n\n';
+      }
+    }
+    txt += '─'.repeat(30) + '\n';
+    txt += 'هذا الدفتر أمانة بين أعضاء سديم\n';
+
+    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'سديم_دفتر_التأسيس.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── RESTART ──
+  function restartForm() {
+    document.getElementById('sudaim-form').reset();
+    formData = {};
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('main-form').classList.remove('hidden');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
